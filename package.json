@@ -1,0 +1,34 @@
+{
+  "name": "megahack-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "engines": {
+    "node": "12.18.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/War-Team-Mega-Hack-3-0/Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/War-Team-Mega-Hack-3-0/Server/issues"
+  },
+  "homepage": "https://github.com/War-Team-Mega-Hack-3-0/Server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.23.2",
+    "mongoose": "^5.9.20",
+    "serverless-http": "^2.5.0"
+  },
+  "devDependencies": {
+    "serverless": "^1.74.0",
+    "serverless-offline": "^6.4.0"
+  }
+}
