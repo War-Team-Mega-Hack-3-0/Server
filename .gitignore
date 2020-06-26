@@ -4,6 +4,10 @@ jspm_packages
 
 # Serverless directories
 .serverless
+serverless-variables.yml
 resources
 
 .env
+
+#AWS Related
+aws-policies
