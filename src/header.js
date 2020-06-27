@@ -1,0 +1,13 @@
+require('dotenv').config()
+const serverless = require('serverless-http')
+const express = require('express')
+const helmet = require('helmet')
+const bodyParser = require('body-parser')
+
+const app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(helmet())
+
+module.exports = { app, serverless }
