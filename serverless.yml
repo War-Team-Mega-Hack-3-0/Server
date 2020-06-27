@@ -32,6 +32,8 @@ provider:
   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
   vpc: ${self:custom.provider.vpc}
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
+  environment:
+    DB_URL: ${self:custom.docdb.db_url}
 
 # you can overwrite defaults here
 #  stage: dev
