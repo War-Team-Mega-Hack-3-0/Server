@@ -8,6 +8,7 @@ serverless-variables.yml
 resources
 
 .env
+certificates
 
 #AWS Related
 aws-policies
