@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy:dev": "sls deploy --stage dev",
     "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
-    "deploy:prod": "sls deploy --stage prod"
+    "deploy:prod": "sls deploy --stage prod",
+    "local": "sls offline --noPrependStageInUrl"
   },
   "repository": {
     "type": "git",
