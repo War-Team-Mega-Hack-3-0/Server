@@ -29,8 +29,10 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
-  profile: ${self:custom.profiles.${self:provider.stage}}
+  profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
   vpc: ${self:custom.provider.vpc}
+  iamRoleStatements: ${self:custom.provider.iamRoleStatements}
+
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
