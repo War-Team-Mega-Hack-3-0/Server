@@ -7,10 +7,10 @@
     "node": "12.18.3"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jest .",
+    "test": "export NODE_ENV=test && ./node_modules/.bin/jest . --detectOpenHandles --forceExit",
     "deploy:dev": "sls deploy --stage dev",
     "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
-    "deploy:prod": "sls deploy --stage prod",
+    "deploy:prod": "export NODE_ENV=prod && sls deploy --stage prod",
     "local": "sls offline --noPrependStageInUrl",
     "lint": "./node_modules/.bin/pretty-quick --staged",
     "eslint": "./node_modules/.bin/eslint . --fix"

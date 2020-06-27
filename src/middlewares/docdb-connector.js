@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
 
   mongoose
     .connect(
-      process.env.IS_OFFLINE
+      process.env.IS_OFFLINE || process.env.NODE_ENV === 'test'
         ? 'mongodb://localhost:27017/dev'
         : process.env.DB_URL,
       {
