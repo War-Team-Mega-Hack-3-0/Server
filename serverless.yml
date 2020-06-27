@@ -22,6 +22,7 @@ service: megahack-server
 
 plugins:
   - serverless-offline
+  - serverless-jest-plugin
 
 custom: ${file(serverless-variables.yml)}
 
@@ -73,8 +74,8 @@ functions:
     handler: src/handlers/hello.handler
     events:
       - http:
-          path: "/"
-          method: "GET"
+          path: '/'
+          method: 'GET'
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -117,4 +118,4 @@ functions:
 
 # you can add CloudFormation resource templates here
 resources:
- - ${file(resources/documentdb.yml)}
+  - ${file(resources/documentdb.yml)}
