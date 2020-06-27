@@ -11,7 +11,9 @@
     "deploy:dev": "sls deploy --stage dev",
     "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
     "deploy:prod": "sls deploy --stage prod",
-    "local": "sls offline --noPrependStageInUrl"
+    "local": "sls offline --noPrependStageInUrl",
+    "lint": "./node_modules/.bin/pretty-quick --staged",
+    "eslint": "./node_modules/.bin/eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,18 @@
     "serverless-http": "^2.5.0"
   },
   "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "prettier": "2.0.5",
+    "pretty-quick": "^2.0.1",
     "serverless": "^1.74.0",
     "serverless-offline": "^6.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && eslint --fix"
+    }
   }
 }
