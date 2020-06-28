@@ -1,7 +1,6 @@
 'use strict';
 const app = require('../app');
 const handler = require('../handler');
-const errors = require('common-errors');
 
 app.get('/', (req, res, next) => {
   return res.status(200).json({
