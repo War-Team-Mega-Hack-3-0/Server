@@ -1,5 +1,4 @@
 require('dotenv').config();
-const serverless = require('serverless-http');
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -14,4 +13,4 @@ app.use(helmet());
 
 app.use(DocumentDBConnector);
 
-module.exports = { app, serverless };
+module.exports = app;

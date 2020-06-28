@@ -1,5 +1,6 @@
 'use strict';
-const { app, serverless } = require('../header');
+const app = require('../app');
+const handler = require('../handler');
 
 app.get('/', (req, res) => {
   return res.status(200).json({
@@ -7,4 +8,4 @@ app.get('/', (req, res) => {
   });
 });
 
-module.exports.handler = serverless(app);
+module.exports.handler = handler(app);

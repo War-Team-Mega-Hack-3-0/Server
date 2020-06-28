@@ -1,0 +1,5 @@
+# Test folder
+__tests__
+
+# Node specific
+node_modules
