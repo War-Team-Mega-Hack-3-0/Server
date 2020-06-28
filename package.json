@@ -7,7 +7,14 @@
     "node": "12.18.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "export NODE_ENV=test && ./node_modules/.bin/jest --verbose --runInBand --forceExit",
+    "test:silent": "export NODE_ENV=test && ./node_modules/.bin/jest --silent --verbose --runInBand --forceExit",
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
+    "deploy:prod": "export NODE_ENV=prod && sls deploy --stage prod",
+    "local": "sls offline --noPrependStageInUrl",
+    "lint": "./node_modules/.bin/pretty-quick --staged",
+    "eslint": "./node_modules/.bin/eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -21,6 +28,7 @@
   "homepage": "https://github.com/War-Team-Mega-Hack-3-0/Server#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "common-errors": "^1.0.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.23.2",
@@ -28,7 +36,26 @@
     "serverless-http": "^2.5.0"
   },
   "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "jest": "^26.1.0",
+    "prettier": "2.0.5",
+    "pretty-quick": "^2.0.1",
     "serverless": "^1.74.0",
-    "serverless-offline": "^6.4.0"
+    "serverless-offline": "^6.4.0",
+    "supertest": "^4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && eslint --fix"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

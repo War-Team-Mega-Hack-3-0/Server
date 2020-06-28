@@ -20,9 +20,20 @@ service: megahack-server
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
+plugins:
+  - serverless-offline
+
+custom: ${file(serverless-variables.yml)}
+
 provider:
   name: aws
   runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
+  vpc: ${self:custom.provider.vpc}
+  iamRoleStatements: ${self:custom.provider.iamRoleStatements}
+  environment:
+    DB_URL: ${self:custom.docdb.db_url}
 
 # you can overwrite defaults here
 #  stage: dev
@@ -33,7 +44,7 @@ provider:
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+#      Resource: { "Fn::Join" : ["" ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -59,7 +70,11 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: src/handlers/hello.handler
+    events:
+      - http:
+          path: '/'
+          method: 'GET'
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -101,13 +116,5 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+  - ${file(resources/documentdb.yml)}
