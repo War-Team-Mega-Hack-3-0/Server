@@ -32,10 +32,6 @@ module.exports = (req, res, next) => {
       }
     )
     .then(() => {
-      console.log(
-        'Database conn',
-        mongoose.connection.db.serverConfig.isConnected()
-      );
       req.databaseConn = mongoose.connection;
       next();
     })
