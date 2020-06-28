@@ -22,7 +22,6 @@ service: megahack-server
 
 plugins:
   - serverless-offline
-  - serverless-jest-plugin
 
 custom: ${file(serverless-variables.yml)}
 
