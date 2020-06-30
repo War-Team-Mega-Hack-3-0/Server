@@ -10,9 +10,10 @@ plugins:
   - prettier
 rules:
   prettier/prettier: error
-  indent:
+  prefer-destructuring:
     - error
-    - 2
+    - object: true
+      array: false
   linebreak-style:
     - error
     - unix
