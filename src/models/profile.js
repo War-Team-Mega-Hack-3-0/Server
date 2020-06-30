@@ -2,11 +2,10 @@ const { models, model, Schema } = require('mongoose');
 const bcrypt = require('bcrypt');
 const { encrypt } = require('../utils/encrypter');
 
-const integrationSchema = new Schema({
-  label: { type: String },
-  key: { type: String },
-  code: { type: String },
-});
+const integrationSchema = new Schema(
+  { label: { type: String } },
+  { discriminatorKey: 'kind', _id: false }
+);
 
 const schema = new Schema({
   email: { type: String, unique: true, required: true, index: true },
@@ -16,28 +15,48 @@ const schema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-schema.pre('save', async function (next) {
-  // Se password modificado = encrypta
-  // Se integrationSchema modificado = Key e Code encryptado
-  // Modificado = updated at
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+// VTEX Integration discriminator
+schema.path('integrations').discriminator(
+  'VTEX',
+  new Schema(
+    {
+      code: { type: String },
+      key: { type: String },
+    },
+    { _id: false }
+  )
+);
 
-  if (this.integrations && this.integrations.length > 0) {
-    for (let i = 0; i < this.integrations.length; i++) {
-      if (this.isModified(`integrations.${i}`)) {
-        const { key, code } = this.integrations[i];
-        if (key) {
-          this.integrations[i].key = encrypt(key);
+schema.pre('save', async function (next) {
+  if (this.isModified()) {
+    if (this.isModified('password')) {
+      this.password = await bcrypt.hash(this.password, 10);
+    }
+
+    if (
+      this.integrations &&
+      this.integrations.length > 0 &&
+      this.isModified('integrations')
+    ) {
+      for (let i = 0; i < this.integrations.length; i++) {
+        switch (this.integration[i].kind) {
+          case 'VTEX': {
+            const { key, code } = this.integrations[i];
+            if (this.isModified(`integrations.${i}.${key}`)) {
+              this.integrations[i].key = encrypt(key);
+            }
+            if (this.isModified(`integrations.${i}.${code}`)) {
+              this.integrations[i].code = encrypt(code);
+            }
+            break;
+          }
         }
       }
     }
-  }
 
-  if (this.isModified) {
     this.updatedAt = new Date();
   }
+
   next();
 });
 
