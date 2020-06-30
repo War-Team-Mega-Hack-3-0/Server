@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/War-Team-Mega-Hack-3-0/Server#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "common-errors": "^1.0.5",
     "dotenv": "^8.2.0",
