@@ -91,6 +91,7 @@ describe('Profile - Model', () => {
 
     const saved = await profile.save();
 
+    expect(saved.integrations[0].kind).toBe('VTEX');
     expect(decrypt(saved.integrations[0].key)).toBe(data.integrations[0].key);
     expect(decrypt(saved.integrations[0].code)).toBe(data.integrations[0].code);
   });
