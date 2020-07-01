@@ -1,7 +1,8 @@
+const { getMongoMemoryServer } = require('../utils/mongo-server');
 const mongoose = require('mongoose');
 const fs = require('fs');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { databaseConn } = req;
   if (
     databaseConn &&
@@ -18,7 +19,7 @@ module.exports = (req, res, next) => {
   mongoose
     .connect(
       process.env.IS_OFFLINE || process.env.NODE_ENV === 'test'
-        ? 'mongodb://localhost:27017/dev'
+        ? (await getMongoMemoryServer()).uri
         : process.env.DB_URL,
       {
         // Buffering means mongoose will queue up operations if it gets
