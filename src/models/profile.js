@@ -39,7 +39,7 @@ schema.pre('save', async function (next) {
       this.isModified('integrations')
     ) {
       for (let i = 0; i < this.integrations.length; i++) {
-        switch (this.integration[i].kind) {
+        switch (this.integrations[i].kind) {
           case 'VTEX': {
             const { key, code } = this.integrations[i];
             if (this.isModified(`integrations.${i}.${key}`)) {

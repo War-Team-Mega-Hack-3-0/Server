@@ -6,19 +6,22 @@ const i = 'utf8';
 const o = 'hex';
 const k = process.env.ENCRYPT_KEY;
 const encryptIv = process.env.ENCRYPT_IV;
-
-const iv = Buffer.from(encryptIv);
+const kString = k.slice(0, 32);
 
 module.exports.encrypt = (value) => {
-  const cipher = createCipheriv(algorithm, k, iv);
+  const iv = Buffer.from(encryptIv);
+  const ivString = iv.slice(0, 16);
+  const cipher = createCipheriv(algorithm, kString, ivString);
   let crypted = cipher.update(value, i, o);
   crypted += cipher.final(o);
-  return `${iv.toString(o)}:${crypted.toString()}`;
+  return `${ivString.toString(o)}:${crypted.toString()}`;
 };
 
 module.exports.decrypt = (encrypted) => {
-  const decipher = createDecipheriv(algorithm, k, iv);
-  let decrypted = decipher.update(encrypted, i, o);
-  decrypted += decipher.final(o);
+  const [, crypted] = encrypted.split(':');
+  const ivString = Buffer.from(encryptIv).slice(0, 16);
+  const decipher = createDecipheriv(algorithm, kString, ivString);
+  let decrypted = decipher.update(crypted, o, i);
+  decrypted += decipher.final(i);
   return decrypted;
 };

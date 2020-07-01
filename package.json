@@ -7,8 +7,8 @@
     "node": "12.18.3"
   },
   "scripts": {
-    "test": "export NODE_ENV=test && ./node_modules/.bin/jest --verbose --runInBand --forceExit",
-    "test:silent": "export NODE_ENV=test && ./node_modules/.bin/jest --silent --verbose --runInBand --forceExit",
+    "test:loud": "export NODE_ENV=test && ./node_modules/.bin/jest --verbose --runInBand --forceExit",
+    "test": "export NODE_ENV=test && ./node_modules/.bin/jest --silent --verbose --runInBand --forceExit",
     "deploy:dev": "sls deploy --stage dev",
     "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
     "deploy:prod": "export NODE_ENV=prod && sls deploy --stage prod",
