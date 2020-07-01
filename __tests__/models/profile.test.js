@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const Profile = require('../../src/models/profile');
+const { getMongoMemoryServer } = require('../../src/utils/mongo-server');
 
 const profileData = {
   email: 'profile@email.com',
@@ -11,7 +12,8 @@ const profileData = {
 
 describe('Profile - Model', () => {
   beforeAll(async () => {
-    await mongoose.connect(global.__MONGO_URI__, {
+    const { uri } = await getMongoMemoryServer();
+    await mongoose.connect(uri, {
       bufferCommands: false, // Disable mongoose buffering
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -24,6 +26,7 @@ describe('Profile - Model', () => {
 
     expect(saved._id).toBeDefined();
     expect(saved.email).toBe(profileData.email);
+    expect(saved.integrations.length).toBe(profileData.integrations.length);
     expect(
       await bcrypt.compare(profileData.password, saved.password)
     ).toBeTruthy();

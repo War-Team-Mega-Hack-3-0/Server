@@ -34,6 +34,8 @@ provider:
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
   environment:
     DB_URL: ${self:custom.docdb.db_url}
+    ENCRYPT_KEY: ${self:custom.key}
+    ENCRYPT_IV: ${self:custom.iv}
 
 # you can overwrite defaults here
 #  stage: dev

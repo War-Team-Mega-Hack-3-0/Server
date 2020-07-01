@@ -60,6 +60,9 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
+    "setupFiles": [
+      "dotenv/config"
+    ],
     "preset": "@shelf/jest-mongodb"
   }
 }

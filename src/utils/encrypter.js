@@ -4,8 +4,9 @@ const { Buffer } = require('buffer');
 const algorithm = 'aes-256-ctr';
 const i = 'utf8';
 const o = 'hex';
-const k = process.env.ENCRIPT_KEY;
-const encryptIv = process.env.ENCRIPT_IV;
+const k = process.env.ENCRYPT_KEY;
+const encryptIv = process.env.ENCRYPT_IV;
+
 const iv = Buffer.from(encryptIv);
 
 module.exports.encrypt = (value) => {
