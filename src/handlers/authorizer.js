@@ -15,7 +15,7 @@ module.exports.handler = (event, context, callback) => {
     const decodedToken = jwt.verify(token, publicKey, {
       algorithms: ['RS512'],
     });
-    console.log('DECODED', decodedToken);
+
     const { email } = decodedToken;
 
     if (email) {
@@ -29,26 +29,22 @@ module.exports.handler = (event, context, callback) => {
 };
 
 function generatePolicy(principalId, effect, resource) {
-  var authResponse = {};
+  const authResponse = {};
 
   authResponse.principalId = principalId;
   if (effect && resource) {
-    var policyDocument = {};
+    const policyDocument = {
+      Statement: [],
+    };
     policyDocument.Version = '2012-10-17';
-    policyDocument.Statement = [];
-    var statementOne = {};
-    statementOne.Action = 'execute-api:Invoke';
-    statementOne.Effect = effect;
-    statementOne.Resource = resource;
+    const statementOne = {
+      Action: 'execute-api:Invoke',
+      Effect: effect,
+      Resource: resource,
+    };
+
     policyDocument.Statement[0] = statementOne;
     authResponse.policyDocument = policyDocument;
   }
-
-  // Optional output with custom properties of the String, Number or Boolean type.
-  authResponse.context = {
-    stringKey: 'stringval',
-    numberKey: 123,
-    booleanKey: true,
-  };
   return authResponse;
 }
