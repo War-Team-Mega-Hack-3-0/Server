@@ -1,12 +1,17 @@
 const jwt = require('jsonwebtoken');
 
 module.exports.handler = (event, context, callback) => {
-  const token = event.authorizationToken;
+  const authValue = event.authorizationToken;
 
-  if (!token) return callback('Unauthorized');
+  if (!authValue) return callback('Unauthorized');
+
+  const token = authValue.match(
+    /[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/
+  )[0];
 
   try {
     const decodedToken = jwt.verify(token, process.env.TOKEN);
+    console.log('DECODED', decodedToken);
     const { user } = decodedToken;
 
     if (user) {
