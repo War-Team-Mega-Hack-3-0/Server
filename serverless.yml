@@ -29,13 +29,14 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
+  region: us-east-1
   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
   vpc: ${self:custom.provider.vpc}
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
   environment:
+    NODE_ENV: ${self:provider.stage}
     DB_URL: ${self:custom.docdb.db_url}
-    ENCRYPT_KEY: ${self:custom.key}
-    ENCRYPT_IV: ${self:custom.iv}
+    ENCRYPT_KEY: ${self:custom.encryptKey}
 
 # you can overwrite defaults here
 #  stage: dev
