@@ -72,6 +72,18 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  authorizer_lambda:
+    handler: src/handlers/authorizer.handler
+  hello_authorized:
+    handler: src/handlers/hello.handler
+    events:
+      - http:
+          path: '/authorized'
+          method: 'GET'
+          authorizer:
+            name: 'authorizer_lambda'
+            type: token
+            identitySource: method.request.header.Authorization
   hello:
     handler: src/handlers/hello.handler
     events:
