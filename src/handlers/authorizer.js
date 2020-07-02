@@ -1,20 +1,24 @@
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 module.exports.handler = (event, context, callback) => {
   const authValue = event.authorizationToken;
 
-  if (!authValue) return callback('Unauthorized');
+  if (!authValue) return callback('Unauthorized: Token not informed');
 
   const token = authValue.match(
     /[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/
   )[0];
 
   try {
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const publicKey = fs.readFileSync('./certificates/jwt-public.key');
+    const decodedToken = jwt.verify(token, publicKey, {
+      algorithms: ['RS512'],
+    });
     console.log('DECODED', decodedToken);
-    const { user } = decodedToken;
+    const { email } = decodedToken;
 
-    if (user) {
+    if (email) {
       return callback(null, generatePolicy('user', 'Allow', event.methodArn));
     }
 

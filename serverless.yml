@@ -31,11 +31,25 @@ provider:
     DB_URL: ${self:custom.docdb.db_url}
     ENCRYPT_KEY: ${self:custom.encryptKey}
 
+package:
+  exclude:
+    - __tests__/**
+    - .eslintrc.yml
+    - .eslintignore
+    - .prettierrc
+    - jest-*
+
 functions:
   authorizer_lambda:
     handler: src/handlers/authorizer.handler
     environment:
       TOKEN: ${self:custom.token_secret}
+  signin:
+    handler: src/handlers/signin.handler
+    events:
+      - http:
+          path: '/signin'
+          method: POST
   hello_authorized:
     handler: src/handlers/hello.handler
     events:
