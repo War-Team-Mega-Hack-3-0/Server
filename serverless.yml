@@ -24,7 +24,6 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
-  vpc: ${self:custom.provider.vpc}
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
   environment:
     NODE_ENV: ${self:provider.stage}
@@ -46,6 +45,7 @@ functions:
       TOKEN: ${self:custom.token_secret}
   signin:
     handler: src/handlers/signin.handler
+    vpc: ${self:custom.provider.vpc}
     events:
       - http:
           path: '/signin'

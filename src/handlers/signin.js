@@ -4,6 +4,9 @@ const fs = require('fs');
 
 const app = require('../app');
 const handler = require('../handler');
+const DatabaseConnector = require('../middlewares/database-connector');
+
+app.use(DatabaseConnector());
 
 app.post('/signin', (req, res) => {
   const { email, password } = req.body;
