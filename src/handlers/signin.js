@@ -2,12 +2,13 @@
 const app = require('../app');
 const handler = require('../handler');
 const { sign } = require('../utils/jwt');
+const authenticate = require('../middlewares/authenticate');
 
 const DatabaseConnector = require('../middlewares/database-connector');
 
 app.use(DatabaseConnector());
 
-app.post('/signin', (req, res) => {
+app.post('/signin', authenticate, (req, res) => {
   const { email } = req.body;
 
   try {
