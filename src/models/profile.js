@@ -9,8 +9,10 @@ const integrationSchema = new Schema(
 
 const schema = new Schema({
   email: { type: String, unique: true, required: true, index: true },
-  password: { type: String },
+  password: { type: String, required: true },
   integrations: [integrationSchema],
+  monthlyGoal: { type: Number },
+  messageToken: { type: String },
   createdAt: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },
 });
