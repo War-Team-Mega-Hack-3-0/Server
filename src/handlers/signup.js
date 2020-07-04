@@ -28,7 +28,7 @@ module.exports.handler = ((connector = DatabaseConnector) => {
 
       if (profile) {
         const token = sign({ id: profile._id });
-        const { password, ...response } = profile;
+        const { password, ...response } = profile._doc;
         return res.status(200).json({ data: response, meta: { token } });
       }
       console.error('Profile cant be created: ', profile);
