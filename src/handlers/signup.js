@@ -21,16 +21,6 @@ module.exports.handler = ((connector = DatabaseConnector) => {
     }
 
     try {
-      const profiles = await Profile.find({});
-      const profileInDatabase = await Profile.findOne({ email });
-
-      console.log('PROFILE DATABASE', profileInDatabase);
-      console.log('PROFILES in DATABASE', profiles);
-
-      if (profileInDatabase !== null) {
-        return next(new AlreadyInUseError());
-      }
-
       const profile = await Profile.create({
         email,
         password,
@@ -48,7 +38,7 @@ module.exports.handler = ((connector = DatabaseConnector) => {
         error instanceof MongoError &&
         error.message.search('duplicate key error') >= 0
       ) {
-        return next(new AlreadyInUseError());
+        return next(new AlreadyInUseError('profile', ['email']));
       }
 
       console.error('Error while signup profile', error);
@@ -58,5 +48,3 @@ module.exports.handler = ((connector = DatabaseConnector) => {
 
   return handler(app);
 })();
-
-// module.exports.handler = handler(app);
