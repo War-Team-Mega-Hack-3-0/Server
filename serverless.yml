@@ -24,6 +24,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
+  vpc: ${self:custom.provider.vpc}
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
   environment:
     NODE_ENV: ${self:provider.stage}
@@ -41,14 +42,12 @@ package:
 functions:
   authorizer_lambda:
     handler: src/handlers/authorizer.handler
-    environment:
-      TOKEN: ${self:custom.token_secret}
+    environment: ${self:custom.jwt}
   signin:
     handler: src/handlers/signin.handler
-    vpc: ${self:custom.provider.vpc}
     events:
       - http:
-          path: '/signin'
+          path: '/profile/token'
           method: POST
   hello_authorized:
     handler: src/handlers/hello.handler
@@ -60,12 +59,6 @@ functions:
             name: 'authorizer_lambda'
             type: token
             identitySource: method.request.header.Authorization
-  hello:
-    handler: src/handlers/hello.handler
-    events:
-      - http:
-          path: '/'
-          method: 'GET'
 
 resources:
   - ${file(resources/documentdb.yml)}

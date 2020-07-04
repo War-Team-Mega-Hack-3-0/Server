@@ -1,26 +1,41 @@
 'use strict';
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 const app = require('../app');
 const handler = require('../handler');
+const { sign } = require('../utils/jwt');
+const authenticate = require('../middlewares/authenticate');
+const { AuthenticationRequiredError } = require('common-errors');
+
+const Profile = require('../models/profile');
+
 const DatabaseConnector = require('../middlewares/database-connector');
 
 app.use(DatabaseConnector());
 
-app.post('/signin', (req, res) => {
+app.post('/profile/token', authenticate, async (req, res, next) => {
   const { email, password } = req.body;
-  const privateKey = fs.readFileSync('./certificates/jwt-private.key', 'utf8');
-  if (email === 'test@email.com' && password === '123') {
-    const token = jwt.sign({ email }, privateKey, {
-      expiresIn: '10d',
-      algorithm: 'RS512',
+  const error = new AuthenticationRequiredError('Invalid Credentials');
+  try {
+    const profile = await Profile.findOne({
+      email,
     });
 
-    return res.status(200).json({ auth: true, token });
-  }
+    if (!profile) {
+      next(error);
+    }
 
-  res.status(401).json({ auth: false });
+    const passwordMatches = await bcrypt.compare(password, profile.password);
+
+    if (!passwordMatches) {
+      next(error);
+    }
+
+    const token = sign({ id: profile._id });
+    return res.status(200).json({ auth: true, token });
+  } catch (error) {
+    res.status(401).json({ auth: false });
+  }
 });
 
 module.exports.handler = handler(app);

@@ -14,6 +14,7 @@
     "deploy:dev:admin": "sls deploy --stage dev --force --aws-profile megahack-admin",
     "deploy:prod": "export NODE_ENV=prod && sls deploy --stage prod",
     "local": "sls offline --noPrependStageInUrl",
+    "debug:local": "export SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless offline -s dev --noPrependStageInUrl",
     "lint": "./node_modules/.bin/pretty-quick --staged",
     "eslint": "./node_modules/.bin/eslint . --fix"
   },

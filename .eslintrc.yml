@@ -1,8 +1,8 @@
 env:
   node: true
-  es2020: true
+  es2020: false
 parserOptions:
-  ecmaVersion: 11
+  ecmaVersion: 2017
 extends:
   - 'eslint:recommended'
   - prettier
