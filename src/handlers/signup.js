@@ -35,6 +35,7 @@ app.post('/profile/signup', async (req, res, next) => {
       return next(new AlreadyInUseError());
     }
 
+    console.error('Error while signup profile', error);
     res.status(500).send();
   }
 });
