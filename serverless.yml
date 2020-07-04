@@ -49,6 +49,12 @@ functions:
       - http:
           path: '/profile/token'
           method: POST
+  signup:
+    handler: src/handlers/signup.handler
+    events:
+      - http:
+          path: '/profile/signup'
+          method: POST
   hello_authorized:
     handler: src/handlers/hello.handler
     events:
