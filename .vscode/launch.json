@@ -9,6 +9,27 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "debug:local"],
       "port": 9229
+    },
+    {
+      "name": "Jest watch current file",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "./node_modules/.bin/jest",
+        "--verbose",
+        "--runInBand",
+        "--forceExit",
+        "--testTimeout",
+        "20000",
+        "--silent",
+        "${fileBasename}"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
     }
   ]
 }
