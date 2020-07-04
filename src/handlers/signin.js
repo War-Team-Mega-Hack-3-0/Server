@@ -19,7 +19,7 @@ app.post('/profile/token', authenticate, async (req, res, next) => {
   try {
     const profile = await Profile.findOne({
       email,
-    });
+    }).lean();
 
     if (!profile) {
       next(error);
