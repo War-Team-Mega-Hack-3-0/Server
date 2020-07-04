@@ -14,21 +14,22 @@ module.exports.handler = ((connector = DatabaseConnector) => {
   app.use(connector());
 
   app.post('/profile/signup', async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password: passwd } = req.body;
 
-    if (!email || !password) {
+    if (!email || !passwd) {
       return next(new ValidationError());
     }
 
     try {
       const profile = await Profile.create({
         email,
-        password,
+        password: passwd,
       });
 
       if (profile) {
         const token = sign({ id: profile._id });
-        return res.status(200).json({ data: profile, meta: { token } });
+        const { password, ...response } = profile;
+        return res.status(200).json({ data: response, meta: { token } });
       }
       console.error('Profile cant be created: ', profile);
       res.status(500).send();
