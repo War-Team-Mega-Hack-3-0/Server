@@ -13,7 +13,7 @@ const DatabaseConnector = require('../middlewares/database-connector');
 
 app.use(DatabaseConnector());
 
-app.post('/signin', authenticate, async (req, res, next) => {
+app.post('/profile/token', authenticate, async (req, res, next) => {
   const { email, password } = req.body;
   const error = new AuthenticationRequiredError('Invalid Credentials');
   try {

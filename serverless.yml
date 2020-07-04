@@ -47,7 +47,7 @@ functions:
     handler: src/handlers/signin.handler
     events:
       - http:
-          path: '/signin'
+          path: '/profile/token'
           method: POST
   hello_authorized:
     handler: src/handlers/hello.handler
@@ -59,12 +59,6 @@ functions:
             name: 'authorizer_lambda'
             type: token
             identitySource: method.request.header.Authorization
-  hello:
-    handler: src/handlers/hello.handler
-    events:
-      - http:
-          path: '/'
-          method: 'GET'
 
 resources:
   - ${file(resources/documentdb.yml)}
