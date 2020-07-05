@@ -18,6 +18,7 @@ Backend repo of the Server solution of Team War.
 #### Testing
 
 - Jest
+- Mongo Memory Server + MongoDB on Localhost
 
 ## Project Architecture
 
@@ -47,6 +48,10 @@ The architecture of this project is simple, and its based on the handler functio
 
 Each `handler` has a collection of routes that are configured with the `Express` module, and wrapped with the `serverless-http` to be delivered by the Lambda. This creates a more friendly and organized development environment.
 
+## Mocking the responses
+
+Due to the _lack of a sandbox environment_, we needed to mock the returns of the values for the dashboard to be shown up based on a _generic dataset_. The integration part is ready based on the developer documentation of VTEX, but the integrations could not be tested properly.
+
 ## Running it Locally
 
 Just run the `local` script on the `package.json`
@@ -66,5 +71,5 @@ npm run test
 
 // or
 
-npm run test:silent // this will run without logging to the console
+npm run test:silent // this will run without logging debug logs to the console
 ```
