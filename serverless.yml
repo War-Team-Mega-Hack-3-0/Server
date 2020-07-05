@@ -71,3 +71,4 @@ functions:
 
 resources:
   - ${file(resources/documentdb.yml)}
+  - ${file(resources/corx-4xx-response.yml)}
