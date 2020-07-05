@@ -24,8 +24,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
-  vpc: ${self:custom.provider.vpc}
   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
+  restApi: true
   environment:
     NODE_ENV: ${self:provider.stage}
     DB_URL: ${self:custom.docdb.db_url}
@@ -44,8 +44,10 @@ functions:
     handler: src/handlers/vtex/orders.handler
   authorizer_lambda:
     handler: src/handlers/authorizer.handler
+    vpc: ${self:custom.provider.vpc}
     environment: ${self:custom.jwt}
   signin:
+    vpc: ${self:custom.provider.vpc}
     handler: src/handlers/signin.handler
     events:
       - http:
@@ -53,6 +55,7 @@ functions:
           method: POST
           cors: true
   signup:
+    vpc: ${self:custom.provider.vpc}
     handler: src/handlers/signup.handler
     events:
       - http:
@@ -60,10 +63,12 @@ functions:
           method: POST
           cors: true
   dashboard:
+    vpc: ${self:custom.provider.vpc}
     handler: src/handlers/dashboard.handler
+    environment: ${self:custom.dashboard}
     events:
       - http:
-          path: '/dashboard'
+          path: '/profile/dashboard'
           method: 'GET'
           cors: true
           authorizer:

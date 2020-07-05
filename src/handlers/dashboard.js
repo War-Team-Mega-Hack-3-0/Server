@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const { ArgumentNullError } = require('common-errors');
 
 const app = require('../app');
 const handler = require('../handler');
@@ -17,13 +16,14 @@ app.use(DatabaseConnector(conn));
  * Gets the initial dashboard information needed
  */
 app.get('/profile/dashboard', authenticate, (req, res, next) => {
+  console.log(req.auth);
   const { integrations } = req.auth;
 
   if (!integrations || integrations.length === 0) {
-    return next(new ArgumentNullError('integrations'));
+    return res.status(403).send('No integrations');
   }
 
-  const [integration] = integrations;
+  const integration = integrations[0];
 
   const params = {
     FunctionName: process.env.VTEX_ORDER,

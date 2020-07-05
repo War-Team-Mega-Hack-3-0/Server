@@ -22,8 +22,10 @@ schema.path('integrations').discriminator(
   'VTEX',
   new Schema(
     {
-      code: { type: String },
+      token: { type: String },
       key: { type: String },
+      accountName: { type: String },
+      environment: { type: String },
     },
     { _id: false }
   )

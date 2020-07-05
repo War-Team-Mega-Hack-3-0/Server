@@ -6,7 +6,7 @@ const requestTypeMap = {
 };
 
 module.exports.vtexRequest = async ({
-  userName,
+  accountName,
   environment,
   apiKey,
   apiToken,
@@ -19,7 +19,7 @@ module.exports.vtexRequest = async ({
 
   const { url, method } = request;
 
-  let baseURL = `https:${userName}.${environment}.com.br`;
+  let baseURL = `https:${accountName}.${environment}.com.br`;
 
   const axiosConfig = {
     baseURL,
