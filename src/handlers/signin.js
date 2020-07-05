@@ -4,16 +4,17 @@ const bcrypt = require('bcrypt');
 const app = require('../app');
 const handler = require('../handler');
 const { sign } = require('../utils/jwt');
-const authenticate = require('../middlewares/authenticate');
 const { AuthenticationRequiredError } = require('common-errors');
 
 const Profile = require('../models/profile');
 
 const DatabaseConnector = require('../middlewares/database-connector');
 
-app.use(DatabaseConnector());
+let conn;
 
-app.post('/profile/token', authenticate, async (req, res, next) => {
+app.use(DatabaseConnector(conn));
+
+app.post('/profile/token', async (req, res, next) => {
   const { email, password: passwd } = req.body;
   const error = new AuthenticationRequiredError('Invalid Credentials');
   try {

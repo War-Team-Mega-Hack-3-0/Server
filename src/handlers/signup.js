@@ -9,9 +9,10 @@ const { AlreadyInUseError, ValidationError } = require('common-errors');
 const Profile = require('../models/profile');
 
 const DatabaseConnector = require('../middlewares/database-connector');
+let conn;
 
 module.exports.handler = ((connector = DatabaseConnector) => {
-  app.use(connector());
+  app.use(connector(conn));
 
   app.post('/profile/signup', async (req, res, next) => {
     const { email, password: passwd } = req.body;

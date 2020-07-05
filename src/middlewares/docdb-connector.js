@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 
-module.exports = async (req, res, next) => {
-  const { databaseConn } = req;
+module.exports = (conn) => (req, res, next) => {
+  console.log('Commencing database connection');
   if (
-    databaseConn &&
-    databaseConn.db &&
-    databaseConn.db.serverConfig &&
-    databaseConn.db.serverConfig.isConnected()
+    conn &&
+    conn.db &&
+    conn.db.serverConfig &&
+    conn.db.serverConfig.isConnected()
   ) {
     console.log('[DB] Connection already exists');
     return next();
@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
       bufferMaxEntries: 0, // and MongoDB driver buffering
     })
     .then(() => {
-      req.databaseConn = mongoose.connection;
+      console.log('Database Connected!');
       next();
     })
     .catch((error) => {

@@ -1,7 +1,17 @@
 const { getMongoMemoryServer } = require('../utils/mongo-server');
 const mongoose = require('mongoose');
 
-module.exports = async (req, res, next) => {
+module.exports = (conn) => async (req, res, next) => {
+  if (
+    conn &&
+    conn.db &&
+    conn.db.serverConfig &&
+    conn.db.serverConfig.isConnected()
+  ) {
+    console.log('[DB] Connection already exists');
+    return next();
+  }
+
   let uri;
   if (process.env.DATABASE_IN_MEMORY > 0) {
     const memoryServer = await getMongoMemoryServer();
