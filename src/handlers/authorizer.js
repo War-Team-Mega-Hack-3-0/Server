@@ -38,14 +38,14 @@ module.exports.handler = async (event, context) => {
           return Profile.findOne({ _id: id }).exec();
         })
         .then((profile) => {
-          console.log('profile', profile);
           if (profile) {
-            return resolve(generatePolicy('user', 'Allow', event.methodArn), {
-              profile,
-            });
+            const allow = generatePolicy(profile._id, 'Allow', event.methodArn);
+            console.log('Allowed Policy', allow);
+            return resolve(allow);
           }
-
-          resolve(generatePolicy('user', 'Deny', event.methodArn));
+          const deny = generatePolicy('user', 'Deny', event.methodArn);
+          console.log('Deny Policy', deny);
+          resolve();
         })
         .catch((error) => {
           console.error('ERROR', error);
