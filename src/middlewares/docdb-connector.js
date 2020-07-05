@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 
-module.exports = (req, res, next) => {
+module.exports = (conn) => (req, res, next) => {
   console.log('Commencing database connection');
-  // const { databaseConn } = req;
-  // if (
-  //   databaseConn &&
-  //   databaseConn.db &&
-  //   databaseConn.db.serverConfig &&
-  //   databaseConn.db.serverConfig.isConnected()
-  // ) {
-  //   console.log('[DB] Connection already exists');
-  //   return next();
-  // }
+  if (
+    conn &&
+    conn.db &&
+    conn.db.serverConfig &&
+    conn.db.serverConfig.isConnected()
+  ) {
+    console.log('[DB] Connection already exists');
+    return next();
+  }
 
   const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
 

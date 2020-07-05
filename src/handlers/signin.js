@@ -10,7 +10,9 @@ const Profile = require('../models/profile');
 
 const DatabaseConnector = require('../middlewares/database-connector');
 
-app.use(DatabaseConnector());
+let conn;
+
+app.use(DatabaseConnector(conn));
 
 app.post('/profile/token', async (req, res, next) => {
   const { email, password: passwd } = req.body;
