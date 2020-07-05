@@ -5,6 +5,7 @@ const authenticate = require('../middlewares/authenticate');
 
 const middleware = (req, res) => {
   console.log('Entered Middleware');
+  console.log('auth? ', req.auth);
   return res.status(200).json({
     message: 'Go Serverless v1.0! Your function executed successfully!',
   });
