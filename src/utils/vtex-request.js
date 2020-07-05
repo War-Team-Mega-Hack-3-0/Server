@@ -19,23 +19,28 @@ module.exports.vtexRequest = async ({
 
   const { url, method } = request;
 
-  let baseURL = `https:${accountName}.${environment}.com.br`;
+  let baseURL = `https://${accountName}.${environment}.com.br`;
 
   const axiosConfig = {
-    baseURL,
-    method,
-    url,
-    data,
-    params,
     headers: {
       'x-vtex-api-appkey': apiKey,
       'x-vtex-api-apptoken': apiToken,
     },
   };
 
+  if (data) axiosConfig.data = data;
+  if (params) axiosConfig.params = params;
+
+  console.log('Request Configurations', axiosConfig);
+
   try {
-    const response = await axios(axiosConfig);
-    return response;
+    let response;
+    if (method === 'GET') {
+      response = await axios.get(`${baseURL}${url}`, axiosConfig);
+    }
+
+    console.log('Axios Response', response);
+    return Promise.resolve(response);
   } catch (error) {
     console.error('Error while requesting resources from VTEX Api', error);
     return Promise.reject(

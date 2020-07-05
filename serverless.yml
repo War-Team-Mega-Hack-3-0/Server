@@ -42,6 +42,8 @@ package:
 functions:
   vtex-orders:
     handler: src/handlers/vtex/orders.handler
+    vpc: ${self:custom.provider.vpc}
+    timeout: 25
   authorizer_lambda:
     handler: src/handlers/authorizer.handler
     vpc: ${self:custom.provider.vpc}
@@ -66,6 +68,7 @@ functions:
     vpc: ${self:custom.provider.vpc}
     handler: src/handlers/dashboard.handler
     environment: ${self:custom.dashboard}
+    timeout: 25
     events:
       - http:
           path: '/profile/dashboard'
