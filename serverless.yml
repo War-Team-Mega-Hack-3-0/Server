@@ -49,18 +49,21 @@ functions:
       - http:
           path: '/profile/token'
           method: POST
+          cors: true
   signup:
     handler: src/handlers/signup.handler
     events:
       - http:
           path: '/profile/signup'
           method: POST
+          cors: true
   hello_authorized:
     handler: src/handlers/hello.handler
     events:
       - http:
           path: '/authorized'
           method: 'GET'
+          cors: true
           authorizer:
             name: 'authorizer_lambda'
             type: token
