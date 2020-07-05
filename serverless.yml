@@ -11,64 +11,77 @@
 #
 # Happy Coding!
 
-service: megahack-server
+# ============= EXPRESS COMPONENT ===============
+component: express
+name: megahack-server-exp
+org: vtex-team-8
+stage: 'hml'
+env:
+  DEBUG: 'express:*'
+roleName: megahack-server-exp-role
+inputs:
+  src: ./
+# ===============================================
 
-plugins:
-  - serverless-offline
+# service: megahack-server
 
-custom: ${file(serverless-variables.yml)}
+# plugins:
+#   - serverless-offline
 
-provider:
-  name: aws
-  runtime: nodejs12.x
-  stage: ${opt:stage, 'dev'}
-  region: us-east-1
-  profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
-  vpc: ${self:custom.provider.vpc}
-  iamRoleStatements: ${self:custom.provider.iamRoleStatements}
-  environment:
-    NODE_ENV: ${self:provider.stage}
-    DB_URL: ${self:custom.docdb.db_url}
-    ENCRYPT_KEY: ${self:custom.encryptKey}
+# custom: ${file(serverless-variables.yml)}
 
-package:
-  exclude:
-    - __tests__/**
-    - .eslintrc.yml
-    - .eslintignore
-    - .prettierrc
-    - jest-*
+# provider:
+#   name: aws
+#   runtime: nodejs12.x
+#   stage: 'hml'
+#   # stage: ${opt:stage, 'dev'}
+#   region: us-east-1
+#   profile: ${opt:aws-profile, self:custom.profiles.${self:provider.stage}}
+#   vpc: ${self:custom.provider.vpc}
+#   iamRoleStatements: ${self:custom.provider.iamRoleStatements}
+#   environment:
+#     NODE_ENV: ${self:provider.stage}
+#     DB_URL: ${self:custom.docdb.db_url}
+#     ENCRYPT_KEY: ${self:custom.encryptKey}
 
-functions:
-  authorizer_lambda:
-    handler: src/handlers/authorizer.handler
-    environment: ${self:custom.jwt}
-  signin:
-    handler: src/handlers/signin.handler
-    events:
-      - http:
-          path: '/profile/token'
-          method: POST
-          cors: true
-  signup:
-    handler: src/handlers/signup.handler
-    events:
-      - http:
-          path: '/profile/signup'
-          method: POST
-          cors: true
-  hello_authorized:
-    handler: src/handlers/hello.handler
-    events:
-      - http:
-          path: '/authorized'
-          method: 'GET'
-          cors: true
-          authorizer:
-            name: 'authorizer_lambda'
-            type: token
-            identitySource: method.request.header.Authorization
+# package:
+#   exclude:
+#     - __tests__/**
+#     - .eslintrc.yml
+#     - .eslintignore
+#     - .prettierrc
+#     - jest-*
 
-resources:
-  - ${file(resources/documentdb.yml)}
-  - ${file(resources/cors-4xx-response.yml)}
+# functions:
+#   authorizer_lambda:
+#     handler: src/handlers/authorizer.handler
+#     environment: ${self:custom.jwt}
+#   signin:
+#     handler: src/handlers/signin.handler
+#     events:
+#       - http:
+#           path: '/profile/token'
+#           method: POST
+#           cors: true
+#   signup:
+#     handler: src/handlers/signup.handler
+#     events:
+#       - http:
+#           path: '/profile/signup'
+#           method: POST
+#           cors: true
+#   hello_authorized:
+#     handler: src/handlers/hello.handler
+#     events:
+#       - http:
+#           path: '/authorized'
+#           method: 'GET'
+#           cors: true
+#           authorizer:
+#             name: 'authorizer_lambda'
+#             type: token
+#             identitySource: method.request.header.Authorization
+
+# resources:
+#   - ${file(resources/documentdb.yml)}
+#   - ${file(resources/cors-4xx-response.yml)}
