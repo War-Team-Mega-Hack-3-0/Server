@@ -1,6 +1,7 @@
 'use strict';
 const app = require('../app');
 const handler = require('../handler');
+const authenticate = require('../middlewares/authenticate');
 
 const middleware = (req, res) => {
   console.log('Entered Middleware');
@@ -10,6 +11,6 @@ const middleware = (req, res) => {
 };
 
 app.get('/', middleware);
-app.get('/authorized', middleware);
+app.get('/authorized', authenticate, middleware);
 
 module.exports.handler = handler(app);
