@@ -40,6 +40,8 @@ package:
     - jest-*
 
 functions:
+  vtex-orders:
+    handler: src/handlers/vtex/orders.handler
   authorizer_lambda:
     handler: src/handlers/authorizer.handler
     environment: ${self:custom.jwt}
@@ -57,11 +59,11 @@ functions:
           path: '/profile/signup'
           method: POST
           cors: true
-  hello_authorized:
-    handler: src/handlers/hello.handler
+  dashboard:
+    handler: src/handlers/dashboard.handler
     events:
       - http:
-          path: '/authorized'
+          path: '/dashboard'
           method: 'GET'
           cors: true
           authorizer:
