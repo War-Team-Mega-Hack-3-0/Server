@@ -2,6 +2,7 @@
 const app = require('../app');
 const handler = require('../handler');
 const authenticate = require('../middlewares/authenticate');
+const DatabaseConnector = require('../middlewares/database-connector');
 
 const middleware = (req, res) => {
   console.log('Entered Middleware');
@@ -12,6 +13,6 @@ const middleware = (req, res) => {
 };
 
 app.get('/', middleware);
-app.get('/authorized', authenticate, middleware);
+app.get('/authorized', DatabaseConnector(), authenticate, middleware);
 
 module.exports.handler = handler(app);
