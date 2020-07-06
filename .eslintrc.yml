@@ -2,7 +2,7 @@ env:
   node: true
   es2020: true
 parserOptions:
-  ecmaVersion: 11
+  ecmaVersion: 2018
 extends:
   - 'eslint:recommended'
   - prettier
@@ -10,9 +10,10 @@ plugins:
   - prettier
 rules:
   prettier/prettier: error
-  indent:
+  prefer-destructuring:
     - error
-    - 2
+    - object: true
+      array: false
   linebreak-style:
     - error
     - unix

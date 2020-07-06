@@ -7,12 +7,14 @@
     "node": "12.18.3"
   },
   "scripts": {
-    "test": "export NODE_ENV=test && ./node_modules/.bin/jest --verbose --runInBand --forceExit",
-    "test:silent": "export NODE_ENV=test && ./node_modules/.bin/jest --silent --verbose --runInBand --forceExit",
+    "test:loud": "export NODE_ENV=test && ./node_modules/.bin/jest --verbose --runInBand --forceExit --testTimeout 30000",
+    "test": "export NODE_ENV=test && ./node_modules/.bin/jest --silent --verbose --runInBand --forceExit --testTimeout 30000",
     "deploy:dev": "sls deploy --stage dev",
-    "deploy:dev:force": "sls deploy --stage dev --force --aws-profile default",
+    "deploy:dev:force": "sls deploy --stage dev --force",
+    "deploy:dev:admin": "sls deploy --stage dev --force --aws-profile megahack-admin",
     "deploy:prod": "export NODE_ENV=prod && sls deploy --stage prod",
     "local": "sls offline --noPrependStageInUrl",
+    "debug:local": "export SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless offline -s dev --noPrependStageInUrl",
     "lint": "./node_modules/.bin/pretty-quick --staged",
     "eslint": "./node_modules/.bin/eslint . --fix"
   },
@@ -27,20 +29,27 @@
   },
   "homepage": "https://github.com/War-Team-Mega-Hack-3-0/Server#readme",
   "dependencies": {
+    "aws-sdk": "^2.709.0",
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "common-errors": "^1.0.5",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.23.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
     "serverless-http": "^2.5.0"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.5",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "mongodb-memory-server": "^6.6.1",
     "prettier": "2.0.5",
     "pretty-quick": "^2.0.1",
     "serverless": "^1.74.0",
@@ -56,6 +65,10 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "preset": "@shelf/jest-mongodb"
   }
 }

@@ -1,8 +1,7 @@
+const { getMongoMemoryServer } = require('../utils/mongo-server');
 const mongoose = require('mongoose');
-const fs = require('fs');
 
-module.exports = (conn) => (req, res, next) => {
-  console.log('Commencing database connection');
+module.exports = (conn) => async (req, res, next) => {
   if (
     conn &&
     conn.db &&
@@ -13,21 +12,29 @@ module.exports = (conn) => (req, res, next) => {
     return next();
   }
 
-  const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
+  let uri;
+  if (process.env.DATABASE_IN_MEMORY > 0) {
+    const memoryServer = await getMongoMemoryServer();
+    // eslint-disable-next-line prefer-destructuring
+    uri = memoryServer.uri;
+  } else {
+    uri = `mongodb://localhost:27017/${
+      process.env.NODE_ENV === 'test' ? 'megahack-test' : 'megahack-local'
+    }`;
+  }
 
+  console.log('URI', uri);
   mongoose
-    .connect(process.env.DB_URL, {
+    .connect(uri, {
       // Buffering means mongoose will queue up operations if it gets
       // disconnected from MongoDB and send them when it reconnects.
       // With serverless, better to fail fast if not connected.
-      sslCA: ca,
       bufferCommands: false, // Disable mongoose buffering
       useNewUrlParser: true,
       useUnifiedTopology: true,
       bufferMaxEntries: 0, // and MongoDB driver buffering
     })
     .then(() => {
-      console.log('Database Connected!');
       next();
     })
     .catch((error) => {
