@@ -22,8 +22,10 @@ schema.path('integrations').discriminator(
   'VTEX',
   new Schema(
     {
-      code: { type: String },
+      token: { type: String },
       key: { type: String },
+      accountName: { type: String },
+      environment: { type: String },
     },
     { _id: false }
   )
@@ -43,12 +45,12 @@ schema.pre('save', async function (next) {
       for (let i = 0; i < this.integrations.length; i++) {
         switch (this.integrations[i].kind) {
           case 'VTEX': {
-            const { key, code } = this.integrations[i];
+            const { token, key } = this.integrations[i];
             if (this.isModified(`integrations.${i}.${key}`)) {
               this.integrations[i].key = encrypt(key);
             }
-            if (this.isModified(`integrations.${i}.${code}`)) {
-              this.integrations[i].code = encrypt(code);
+            if (this.isModified(`integrations.${i}.${token}`)) {
+              this.integrations[i].token = encrypt(token);
             }
             break;
           }

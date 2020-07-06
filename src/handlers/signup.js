@@ -15,7 +15,7 @@ module.exports.handler = ((connector = DatabaseConnector) => {
   app.use(connector(conn));
 
   app.post('/profile/signup', async (req, res, next) => {
-    const { email, password: passwd } = req.body;
+    const { email, password: passwd, integrations } = req.body;
 
     if (!email || !passwd) {
       return next(new ValidationError());
@@ -25,6 +25,7 @@ module.exports.handler = ((connector = DatabaseConnector) => {
       const profile = await Profile.create({
         email,
         password: passwd,
+        integrations,
       });
 
       if (profile) {

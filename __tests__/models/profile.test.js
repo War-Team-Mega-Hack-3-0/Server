@@ -85,7 +85,15 @@ describe('Profile - Model', () => {
     const data = {
       ...profileData,
       email: 'profile3@email.com',
-      integrations: [{ kind: 'VTEX', key: 'key', code: 'code' }],
+      integrations: [
+        {
+          kind: 'VTEX',
+          key: 'key',
+          token: 'token',
+          accountName: 'accountName',
+          environment: 'environment',
+        },
+      ],
     };
     const profile = new Profile(data);
 
@@ -93,6 +101,14 @@ describe('Profile - Model', () => {
 
     expect(saved.integrations[0].kind).toBe('VTEX');
     expect(decrypt(saved.integrations[0].key)).toBe(data.integrations[0].key);
-    expect(decrypt(saved.integrations[0].code)).toBe(data.integrations[0].code);
+    expect(decrypt(saved.integrations[0].accountName)).toBe(
+      data.integrations[0].accountName
+    );
+    expect(decrypt(saved.integrations[0].environment)).toBe(
+      data.integrations[0].environment
+    );
+    expect(decrypt(saved.integrations[0].token)).toBe(
+      data.integrations[0].token
+    );
   });
 });
