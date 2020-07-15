@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
+// const fs = require('fs');
 
 module.exports = (conn) => (req, res, next) => {
   console.log('Commencing database connection');
@@ -13,14 +13,14 @@ module.exports = (conn) => (req, res, next) => {
     return next();
   }
 
-  const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
+  // const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
 
   mongoose
     .connect(process.env.DB_URL, {
       // Buffering means mongoose will queue up operations if it gets
       // disconnected from MongoDB and send them when it reconnects.
       // With serverless, better to fail fast if not connected.
-      sslCA: ca,
+      // sslCA: ca,
       bufferCommands: false, // Disable mongoose buffering
       useNewUrlParser: true,
       useUnifiedTopology: true,

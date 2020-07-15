@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
+// const fs = require('fs');
 
 const options = {
   bufferCommands: false, // Disable mongoose buffering
@@ -39,8 +39,8 @@ module.exports.getConnection = (conn, context) => {
         process.env.NODE_ENV === 'test' ? 'megahack-test' : 'megahack-local'
       }`;
     } else {
-      const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
-      options.sslCA = ca;
+      // const ca = fs.readFileSync('certificates/rds-bundle-ca.pem');
+      // options.sslCA = ca;
       uri = process.env.DB_URL;
     }
 

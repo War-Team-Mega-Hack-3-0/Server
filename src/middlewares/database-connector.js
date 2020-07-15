@@ -4,7 +4,7 @@ module.exports = (conn) => {
     const MongoServerConnector = require('./mongo-server-connector');
     return MongoServerConnector(conn);
   } else {
-    console.log('Connecting to DocumentDB');
+    console.log('Connecting to MongoDB');
     const DocumentDBConnector = require('./docdb-connector');
     return DocumentDBConnector(conn);
   }
